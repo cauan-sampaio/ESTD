@@ -19,17 +19,17 @@ class LinkedList:
             current.next = new_node
         self.length += 1
 
-    def delete_beginning(self):
-        if self.length != 0:
-            self.head = self._delete_recursive(self.head)
-            self.length -= 1
-        else:
-            raise Exception("Cannot delete from an empty list")
+    def delete_end(self):
+        if self.length == 0:
+            return
+        self._delete_end_recursive(self.head)
+        self.length -= 1
 
-    def _delete_recursive(self, node):
-        if node is None:
-            return None
-        return node.next
+    def _delete_end_recursive(self, node):
+        if node.next is None or node.next.next is None:
+            node.next = None
+            return
+        self._delete_end_recursive(node.next)
 
     def display(self):
         current = self.head
@@ -43,8 +43,10 @@ my_linked_list = LinkedList()
 my_linked_list.append(1)
 my_linked_list.append(2)
 my_linked_list.append(3)
+my_linked_list.append(4)
+
+my_linked_list.display()  # Saída: 1 -> 2 -> 3 -> 4 -> None
+
+my_linked_list.delete_end()
 
 my_linked_list.display()  # Saída: 1 -> 2 -> 3 -> None
-
-my_linked_list.delete_beginning()
-my_linked_list.display()  # Saída: 2 -> 3 -> None
